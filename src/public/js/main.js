@@ -40,7 +40,9 @@ $(function(){
         console.log('enviando datos')
         console.log($mesaggeBox.val())
         //!frontend envia a servidor lo de la caja y els ervidor debe escuchar en sockets **
-        socket.emit('send message', $mesaggeBox.val());
+        socket.emit('send message', $mesaggeBox.val(), data=>{
+            $chat.append(`<p class="error">${data}</p>`)
+        });
         $mesaggeBox.val('')
     });
 
@@ -55,5 +57,21 @@ $(function(){
         }
         $users.html(html);
     })
+
+    socket.on('whisper',data=>{
+        $chat.append(`<p class="whisper">${data.nick}:</b>${data.msg}</p>`)
+    })
+
+    socket.on('load old mesg',data=>{
+        for (let i=0; i<data.length;i++){
+            // $chat.append(`<p class="whisper">${data.nick}:</b>${data.msg}</p>`)
+            displaymsg(data[i])
+        }
+    })
+
+    function displaymsg(data){
+        $chat.append(`<p class="whisper">${data.nick}:</b>${data.msg}</p>`)
+
+    }
 
 })

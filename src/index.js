@@ -5,9 +5,19 @@ const path=require('path');
 const socketio=require('socket.io');
 const { notStrictEqual } = require('assert');
 
+
+//mongodb
+const mongoose=require('mongoose');
+
+
 const app=express();
 const servidor=http.createServer(app);
 const io=socketio.listen(servidor);
+
+//db connection
+mongoose.connect('mongodb://localhost/chat-database')
+    .then(db=>console.log('db is connect'))
+    .catch(err=>console.log('error'))
 
 
 //setings usa el puerto q me de si no el 3000
